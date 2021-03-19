@@ -1,8 +1,10 @@
-﻿Library.obj : error LNK2019: unresolved external symbol _inputABook referenced in function _main
-Library.obj : error LNK2019: unresolved external symbol _takeOutABook referenced in function _main
-Library.obj : error LNK2019: unresolved external symbol _returnABook referenced in function _main
-Library.obj : error LNK2019: unresolved external symbol _deleteABookFromStock referenced in function _main
-Library.obj : error LNK2019: unresolved external symbol _viewAllBooks referenced in function _main
-Library.obj : error LNK2019: unresolved external symbol _viewASpecificBook referenced in function _main
-Library.obj : error LNK2019: unresolved external symbol _viewMostAndLeastPopular referenced in function _main
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Debug\Assignment1ADS.exe : fatal error LNK1120: 7 unresolved externals
+﻿  Library.c
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(84,7): warning C4013: 'gets' undefined; assuming extern returning int
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(104,33): error C2106: '=': left operand must be l-value
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(105,21): error C2106: '=': left operand must be l-value
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(106,25): error C2106: '=': left operand must be l-value
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(109,29): error C2106: '=': left operand must be l-value
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(121,14): error C2180: controlling expression has type 'void'
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(140,13): error C2180: controlling expression has type 'void'
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(152,6): error C2371: 'isEmpty': redefinition; different basic types
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(20): message : see declaration of 'isEmpty'
