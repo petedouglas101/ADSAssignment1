@@ -3,7 +3,7 @@
 #define bool int
 #define false 0
 #define true (!false);
-#define MAX 10//Definng a MAX constant
+#define MAX 2//Definng a MAX constant
 #include <stdio.h>//Standard input/output header file
 #include <stdlib.h>//Standard library header file
 #include <string.h>
@@ -11,12 +11,12 @@
 
 //Function Prototypes
 void inputABook();
-void borrowABook();
-void returnABook();
-void deleteABookFromStock();
+//void borrowABook();
+//void returnABook();
+//void deleteABookFromStock();
 void viewAllBooks();
-void viewASpecificBook();
-void viewMostAndLeatPopular();
+//void viewASpecificBook();
+//void viewMostAndLeatPopular();
 bool isEmpty();
 
 //Book Structure
@@ -25,7 +25,7 @@ struct Book {
 	char name[25];
 	char author[25];
 	int yearOfPub;
-	bool status;
+	bool isAvailable;
 	char custName[25];
 	int count;
 };
@@ -46,9 +46,10 @@ int bookCount = 0;
 
 
 void main() {
+
+	int option;//Variable to hold option for menu
+	printf("Welcome to the Library!\nPlease select from one of the following options: \n");//Welcome message of menu
 	do {
-		int option;//Variable to hold option for menu
-		printf("Welcome to the Library!\nPlease select from one of the following options: \n");//Welcome message of menu
 		printf("1. Add a new book\n2. Allow customer to take out book\n3. Allow customer to return a book\n4. Delete an old book from stock\n5. View all books\n6. View a specific book\n7. View details of most popular and least popular books\n8. Exit");//Displaying the menu and the options
 		scanf("%d", &option);
 
@@ -57,16 +58,22 @@ void main() {
 			inputABook();
 			break;
 
-		case 2:
-			borrowABook();
-			break;
+			/*case 2:
+				borrowABook();
+				break;*/
 
 		case 5:
 			viewAllBooks();
 			break;
+		case 9:
+			break;
+		default:
+			printf("Invalid selection - try again!");
 		}
-
 	} while (option != 9);
+
+
+	
 
 }
 
@@ -86,9 +93,6 @@ void inputABook() {
 	int count = 0;
 
 	int i;//Index variable
-
-	struct Book* aBook;
-	struct LinearNode* aNode;//Creating a Linear Node for storing each book
 
 	//Loop that goes around MAX times for entering new book details
 	for (i = 0; i < MAX; i++) {
@@ -114,19 +118,19 @@ void inputABook() {
 		aBook = (struct Book *)malloc(sizeof(struct Book));//Allocate memory for new Book element
 		aNode = (struct LinearNode *)malloc(sizeof(struct LinearNode));//Allocate memory for new Linear Node 
 
-		aBook->identifier = identifier;
-		aBook->name = name;
-		aBook->author = author;
+		strcpy(aBook->identifier, identifier);
+		strcpy(aBook->name, name);
+		strcpy(aBook->author, author);
 		aBook->yearOfPub = yearOfPub;
-		aBook->status = status;
-		aBook->custName = custName;
+		aBook->isAvailable = status;
+		strcpy(aBook->custName, custName);
 		aBook->count = count;
 
 		if (aNode == NULL) {
 			printf("Error - no space for new node!");
 		}
 		else {
-			aNode->element = NULL;
+			aNode->next = NULL;
 			aNode->element = aBook;
 		}
 
@@ -150,10 +154,29 @@ void inputABook() {
 }
 
 //Function for borrowing a book
-void borrowABook()
+/*void borrowABook() {
+	char iden[9];
+	struct LinearNode* current = first;
+	printf("Please enter the identifier of the book you wish to borrow: ");
+	scanf("%s", iden);
+
+	while (current != NULL && current->element->identifier != iden) {
+		current = current->element;
+	}
+
+	if (current == NULL) {
+		printf("This book does not exist!");
+	}
+	else {
+		printf("We have found the book you are looking for!\n");
+		if (current->element->isAvailable == false) {
+			printf("But unfortunately it is currently unavailable! ");
+		}
+	}
+}*/
 
 //Function for viewing all books in the list
-void viewAllNodes() {
+void viewAllBooks() {
 	struct LinearNode* current;
 
 	if (isEmpty())
