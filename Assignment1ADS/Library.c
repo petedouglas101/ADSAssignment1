@@ -11,7 +11,7 @@
 
 //Function Prototypes
 void inputABook();
-//void borrowABook();
+void borrowABook();
 //void returnABook();
 //void deleteABookFromStock();
 void viewAllBooks();
@@ -57,11 +57,9 @@ void main() {
 		case 1:
 			inputABook();
 			break;
-
-			/*case 2:
-				borrowABook();
-				break;*/
-
+		case 2:
+			borrowABook();
+			break;
 		case 5:
 			viewAllBooks();
 			break;
@@ -154,13 +152,14 @@ void inputABook() {
 }
 
 //Function for borrowing a book
-/*void borrowABook() {
+void borrowABook() {
 	char iden[9];
+	char name[25];
 	struct LinearNode* current = first;
 	printf("Please enter the identifier of the book you wish to borrow: ");
 	scanf("%s", iden);
 
-	while (current != NULL && current->element->identifier != iden) {
+	while (current != NULL && strcmp(current->element->identifier, iden) == 0) {
 		current = current->element;
 	}
 
@@ -169,11 +168,19 @@ void inputABook() {
 	}
 	else {
 		printf("We have found the book you are looking for!\n");
-		if (current->element->isAvailable == false) {
-			printf("But unfortunately it is currently unavailable! ");
+		if (current->element->isAvailable != false){
+			printf("Please enter your name: \n");
+			scanf("%s", name);
+			strcpy(current->element->custName, name);
+			current->element->isAvailable = false;
+			current->element->count++;
+
+		}
+		else {
+			printf("But it is unavailable right now!\n");
 		}
 	}
-}*/
+}
 
 //Function for viewing all books in the list
 void viewAllBooks() {
