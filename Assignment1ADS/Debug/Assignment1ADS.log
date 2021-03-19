@@ -1,3 +1,8 @@
-﻿  Library.c
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(5,6): warning C4101: 'option': unreferenced local variable
-  Assignment1ADS.vcxproj -> C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Debug\Assignment1ADS.exe
+﻿Library.obj : error LNK2019: unresolved external symbol _inputABook referenced in function _main
+Library.obj : error LNK2019: unresolved external symbol _takeOutABook referenced in function _main
+Library.obj : error LNK2019: unresolved external symbol _returnABook referenced in function _main
+Library.obj : error LNK2019: unresolved external symbol _deleteABookFromStock referenced in function _main
+Library.obj : error LNK2019: unresolved external symbol _viewAllBooks referenced in function _main
+Library.obj : error LNK2019: unresolved external symbol _viewASpecificBook referenced in function _main
+Library.obj : error LNK2019: unresolved external symbol _viewMostAndLeastPopular referenced in function _main
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Debug\Assignment1ADS.exe : fatal error LNK1120: 7 unresolved externals
