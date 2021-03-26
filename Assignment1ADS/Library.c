@@ -3,7 +3,7 @@
 #define bool int
 #define false 0
 #define true (!false);
-#define MAX 2//Definng a MAX constant
+#define MAX 10//Definng a MAX constant
 #include <stdio.h>//Standard input/output header file
 #include <stdlib.h>//Standard library header file
 #include <string.h>//Standard string header file
@@ -13,7 +13,7 @@
 void inputABook();
 void borrowABook();
 void returnABook();
-//void deleteABookFromStock();
+void deleteABookFromStock();
 void viewAllBooks();
 //void viewASpecificBook();
 //void viewMostAndLeatPopular();
@@ -37,7 +37,7 @@ struct LinearNode {
 };
 
 // Global Variables
-struct LinearNode *first = NULL; //front of list
+struct LinearNode *first = NULL; //pointer to first element in the list
 struct LinearNode *last = NULL; //pointer to last node in list
 int bookCount = 0;
 
@@ -68,6 +68,9 @@ void main() {
 		case 3:
 			returnABook();
 			break;
+		case 4:
+			deleteABookFromStock();
+			break;
 		case 5:
 			viewAllBooks();
 			break;
@@ -75,11 +78,9 @@ void main() {
 			break;
 		default:
 			printf("Invalid selection - try again!");
+			break;
 		}
 	} while (option != 9);
-
-
-	
 
 }
 
@@ -90,9 +91,6 @@ void inputABook() {
 	struct LinearNode *aNode;//Creating a Linear Node for storing each book
 
 	//Variables for storing data on each book
-	char identifier[9];
-	char name[25];
-	char author[25];
 	int yearOfPub;
 	bool isAvailable = true;
 	char custName[25];
@@ -103,34 +101,30 @@ void inputABook() {
 	//Loop that goes around MAX times for entering new book details
 	for (i = 0; i < MAX; i++) {
 
+		aBook = (struct Book*)malloc(sizeof(struct Book));//Allocate memory for new Book element
+		aNode = (struct LinearNode*)malloc(sizeof(struct LinearNode));//Allocate memory for new Linear Node 
+
 		printf("Please enter book identifier (8 digit number in the form xxxx-xxxx): \n");
-		scanf("%s", identifier);
+		scanf("%s", aBook->identifier);
 
-		printf("Please enter the name of the book: ");
-		scanf("%s", name);
+		printf("Please enter the name of the book: \n");
+		scanf("%s", aBook->name);
 
-		printf("Please enter the name of the author: ");
-		fflush(stdin);
-		scanf("%s", author);
+		printf("Please enter the name of the author: \n");
+		scanf("%s", aBook->author);
 
 		do {
 			printf("Please enter the year of publication: \n");
-			scanf("%d", &yearOfPub);
+			scanf("%d", &aBook->yearOfPub);
+			fflush(stdin);
 			if (yearOfPub < 2008) {
 				printf("Year of publicaion must be after 2008 - Please enter again!\n");
 			}
 		} while (yearOfPub < 2008);
 
-		aBook = (struct Book *)malloc(sizeof(struct Book));//Allocate memory for new Book element
-		aNode = (struct LinearNode *)malloc(sizeof(struct LinearNode));//Allocate memory for new Linear Node 
-
-		strcpy(aBook->identifier, identifier);
-		strcpy(aBook->name, name);
-		strcpy(aBook->author, author);
-		aBook->yearOfPub = yearOfPub;
 		aBook->isAvailable = isAvailable;
 		strcpy(aBook->custName, custName);
-		aBook->count = count;
+		aBook->count = count; 
 
 		if (aNode == NULL) {
 			printf("Error - no space for new node!");
@@ -163,12 +157,12 @@ void inputABook() {
 void borrowABook() {
 	char iden[9];
 	char name[25];
-	struct LinearNode* current = first;
+	struct LinearNode *current = first;
 	printf("Please enter the identifier of the book you wish to borrow: ");
 	scanf("%s", iden);
 
 	while (current != NULL && strcmp(current->element->identifier, iden) != 0) {
-		current = current->element;
+		current = current->next;
 	}
 
 	if (current == NULL) {
@@ -196,23 +190,69 @@ void returnABook() {
 	char custName[25];
 	printf("Please enter your name: \n");
 	gets("%s", custName);
-	printd("Please enter the identifier of the book you wish to return: \n");
+	printf("Please enter the identifier of the book you wish to return: \n");
 	gets("%s", custName);
 	struct LinearNode* current = first;
 	while (current != NULL && strcmp(current->element->identifier, iden) != 0 && strcmp(current->element->custName, custName) != 0){
-		current = current->element;
+		current = current->next;
 	}
 
 	if (current == NULL) {
 		printf("Book/Customer has not been found!");
 	}
 
-	if (strcmp(current->element->identifier) == 0 && strcmp(current->element->custName) == 0) {
+	if (strcmp(current->element->identifier, iden) == 0 && strcmp(current->element->custName, custName) == 0) {
 		printf("Thank you for returning the book on time!");
 		current->element->isAvailable = true;
 
 	}
 
+}
+
+//Function for delesting a book from stock
+void deleteABookFromStock() {
+	char iden[9];
+	struct LinearNode* current, * previous;
+	bool found = false;
+	printf("Please enter the identifier of the book you wish to delete: \n");
+	gets("%s", iden);
+
+	if (isEmpty()) {
+		printf("ERROR - There are no books in the library!\n");
+	}
+	else {
+		current = previous = first;
+		while (!found && current != NULL) {
+			if (strcmp(iden, current->element->identifier) == 0) {
+				found = true;
+			}
+			else {
+				current = current->next;
+				previous = current;
+			}
+		}
+
+		if (!found) {
+			printf("ERROR - This book does not exist!\n");
+		}
+		else {
+			if (current == first) {
+				first = first->element;
+				free(current);
+			}
+			else {
+				previous->next = current->next;
+				free(current);
+			}
+
+			printf("%s has been deleted!\n", iden);
+		}
+	}
+
+
+
+
+	
 }
 
 //Function for viewing all books in the list
@@ -239,3 +279,4 @@ bool isEmpty() {
 		return false;
 	}
 }
+
