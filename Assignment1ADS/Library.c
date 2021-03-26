@@ -6,13 +6,13 @@
 #define MAX 2//Definng a MAX constant
 #include <stdio.h>//Standard input/output header file
 #include <stdlib.h>//Standard library header file
-#include <string.h>
+#include <string.h>//Standard string header file
 
 
 //Function Prototypes
 void inputABook();
 void borrowABook();
-//void returnABook();
+void returnABook();
 //void deleteABookFromStock();
 void viewAllBooks();
 //void viewASpecificBook();
@@ -55,10 +55,18 @@ void main() {
 
 		switch (option) {
 		case 1:
-			inputABook();
+			if (bookCount <= 10) {
+				inputABook();
+			}
+			else {
+				printf("ERROR - Too many books in the system!");
+			}
 			break;
 		case 2:
 			borrowABook();
+			break;
+		case 3:
+			returnABook();
 			break;
 		case 5:
 			viewAllBooks();
@@ -86,7 +94,7 @@ void inputABook() {
 	char name[25];
 	char author[25];
 	int yearOfPub;
-	bool status = false;
+	bool isAvailable = true;
 	char custName[25];
 	int count = 0;
 
@@ -120,7 +128,7 @@ void inputABook() {
 		strcpy(aBook->name, name);
 		strcpy(aBook->author, author);
 		aBook->yearOfPub = yearOfPub;
-		aBook->isAvailable = status;
+		aBook->isAvailable = isAvailable;
 		strcpy(aBook->custName, custName);
 		aBook->count = count;
 
@@ -159,7 +167,7 @@ void borrowABook() {
 	printf("Please enter the identifier of the book you wish to borrow: ");
 	scanf("%s", iden);
 
-	while (current != NULL && strcmp(current->element->identifier, iden) == 0) {
+	while (current != NULL && strcmp(current->element->identifier, iden) != 0) {
 		current = current->element;
 	}
 
@@ -180,6 +188,31 @@ void borrowABook() {
 			printf("But it is unavailable right now!\n");
 		}
 	}
+}
+
+//Function for returning a borrowed book
+void returnABook() {
+	char iden[9];
+	char custName[25];
+	printf("Please enter your name: \n");
+	gets("%s", custName);
+	printd("Please enter the identifier of the book you wish to return: \n");
+	gets("%s", custName);
+	struct LinearNode* current = first;
+	while (current != NULL && strcmp(current->element->identifier, iden) != 0 && strcmp(current->element->custName, custName) != 0){
+		current = current->element;
+	}
+
+	if (current == NULL) {
+		printf("Book/Customer has not been found!");
+	}
+
+	if (strcmp(current->element->identifier) == 0 && strcmp(current->element->custName) == 0) {
+		printf("Thank you for returning the book on time!");
+		current->element->isAvailable = true;
+
+	}
+
 }
 
 //Function for viewing all books in the list
