@@ -15,13 +15,13 @@ void borrowABook();
 void returnABook();
 void deleteABookFromStock();
 void viewAllBooks();
-//void viewASpecificBook();
-//void viewMostAndLeatPopular();
+void viewASpecificBook();
+void viewMostAndLeastPopular();
 bool isEmpty();
 
 //Book Structure
 struct Book {
-	char identifier[9];
+	char identifier[8];
 	char name[25];
 	char author[25];
 	int yearOfPub;
@@ -50,7 +50,7 @@ void main() {
 	int option;//Variable to hold option for menu
 	printf("Welcome to the Library!\nPlease select from one of the following options: \n");//Welcome message of menu
 	do {
-		printf("1. Add a new book\n2. Allow customer to take out book\n3. Allow customer to return a book\n4. Delete an old book from stock\n5. View all books\n6. View a specific book\n7. View details of most popular and least popular books\n8. Exit");//Displaying the menu and the options
+		printf("\n1. Add new books to library\n2. Borrow a book\n3. Return a book\n4. Delete an old book from stock\n5. View all books\n6. View a specific book\n7. View details of most popular and least popular books\n8. Exit\n");//Displaying the menu and the options
 		scanf("%d", &option);
 
 		switch (option) {
@@ -74,10 +74,16 @@ void main() {
 		case 5:
 			viewAllBooks();
 			break;
+		case 6: 
+			viewASpecificBook();
+			break;
+		case 7:
+			viewMostAndLeastPopular();
+			break;
 		case 9:
 			break;
 		default:
-			printf("Invalid selection - try again!");
+			printf("Invalid selection - try again!\n");
 			break;
 		}
 	} while (option != 9);
@@ -117,10 +123,10 @@ void inputABook() {
 			printf("Please enter the year of publication: \n");
 			scanf("%d", &aBook->yearOfPub);
 			fflush(stdin);
-			if (yearOfPub < 2008) {
+			if (aBook->yearOfPub < 2008) {
 				printf("Year of publicaion must be after 2008 - Please enter again!\n");
 			}
-		} while (yearOfPub < 2008);
+		} while (aBook->yearOfPub < 2008);
 
 		aBook->isAvailable = isAvailable;
 		strcpy(aBook->custName, custName);
@@ -186,12 +192,12 @@ void borrowABook() {
 
 //Function for returning a borrowed book
 void returnABook() {
-	char iden[9];
+	char iden[8];
 	char custName[25];
 	printf("Please enter your name: \n");
-	gets("%s", custName);
+	scanf("%s", custName);
 	printf("Please enter the identifier of the book you wish to return: \n");
-	gets("%s", custName);
+	scanf("%s", custName);
 	struct LinearNode* current = first;
 	while (current != NULL && strcmp(current->element->identifier, iden) != 0 && strcmp(current->element->custName, custName) != 0){
 		current = current->next;
@@ -211,16 +217,16 @@ void returnABook() {
 
 //Function for delesting a book from stock
 void deleteABookFromStock() {
+	if (isEmpty()) {
+		printf("ERROR - There are no books in the library!\n");
+	}
+
 	char iden[9];
 	struct LinearNode* current, * previous;
 	bool found = false;
 	printf("Please enter the identifier of the book you wish to delete: \n");
-	gets("%s", iden);
+	scanf("%s", iden);
 
-	if (isEmpty()) {
-		printf("ERROR - There are no books in the library!\n");
-	}
-	else {
 		current = previous = first;
 		while (!found && current != NULL) {
 			if (strcmp(iden, current->element->identifier) == 0) {
@@ -236,8 +242,10 @@ void deleteABookFromStock() {
 			printf("ERROR - This book does not exist!\n");
 		}
 		else {
-			if (current == first) {
-				first = first->element;
+			if (current->element->yearOfPub >= 2010) {
+				printf("Cannot delete book from stock - must be published before 2010!\n");
+			} else if (current == first) {
+				first = first->next;
 				free(current);
 			}
 			else {
@@ -247,7 +255,7 @@ void deleteABookFromStock() {
 
 			printf("%s has been deleted!\n", iden);
 		}
-	}
+	
 
 
 
@@ -264,10 +272,82 @@ void viewAllBooks() {
 	else {
 		current = first;
 		while (current != NULL) {
-			printf("Book Identifier: %s\nBook Title: %s\nAuthor: %s\nPublished: %d", current->element->identifier, current->element->name, current->element->author, current->element->yearOfPub);
+			printf("\nBook Identifier: %s\nBook Title: %s\nAuthor: %s\nPublished: %d\n", current->element->identifier, current->element->name, current->element->author, current->element->yearOfPub);
 			current = current->next;
 		}
 	}
+}
+
+//Function for viewing a specific book
+void viewASpecificBook() {
+	char name[25];
+	struct LinearNode* current;
+	bool found = false;
+	printf("Please enter the name of the book you want to view: \n");
+	scanf("%s", name);
+
+	if (isEmpty()) {
+		printf("ERROR - There are no books in the library!\n");
+	}
+	else {
+		current = first;
+		while (!found && current != NULL) {
+			if (strcmp(name, current->element->name) == 0) {
+				found = true;
+			}
+			else {
+				current = current->next;
+			}
+		}
+
+		if (!found) {
+			printf("ERROR - This book does not exist!\n");
+		}
+		else {
+			printf("\nName: %s\nAuthor: %s\nPublished: %d\nISBN: %s\n", current->element->name, current->element->author, current->element->yearOfPub, current->element->identifier);
+		}
+	}
+
+}
+
+//Function for viewing most and least popular books
+void viewMostAndLeastPopular() {
+	struct Book *popularBook;
+	struct Book* leastPopularBook;
+	struct LinearNode* current;
+	int max = 0;
+	int min = 0;
+
+	if (isEmpty())
+		printf("Error - there are no books in the list\n");
+	else {
+		current = first;
+		while (current != NULL) {
+			if (current->element->count > max) {
+				max = current->element->count;
+				popularBook = current->element;
+				current = current->next;
+
+			}
+			else {
+				current = current->next;
+			}
+		}
+
+		current = first;
+		while (current != NULL) {
+			min = current->element->count;
+			current = current->next;
+			if (current->element->count <= min) {
+				leastPopularBook = current->element;
+			}
+			else {
+				current = current->next;
+			}
+		}
+	}
+	printf("Most popular: %s\nLeast Popular: %s", popularBook->name, leastPopularBook->name);
+
 }
 
 //Function that returns true if Linked List is empty and false if not
