@@ -1,26 +1,4 @@
 ﻿  Library.c
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(86,6): error C2059: syntax error: 'type'
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(123,9): error C2065: 'aBook': undeclared identifier
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(123,53): warning C4047: '=': 'int' differs in levels of indirection from 'Book *'
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(126,15): error C2065: 'aBook': undeclared identifier
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(126,17): error C2223: left of '->identifier' must point to struct/union
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(126,9): error C2198: 'strcpy': too few arguments for call
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(127,15): error C2065: 'aBook': undeclared identifier
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(127,17): error C2223: left of '->name' must point to struct/union
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(127,9): error C2198: 'strcpy': too few arguments for call
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(128,15): error C2065: 'aBook': undeclared identifier
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(128,17): error C2223: left of '->author' must point to struct/union
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(128,9): error C2198: 'strcpy': too few arguments for call
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(129,8): error C2065: 'aBook': undeclared identifier
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(129,10): error C2223: left of '->yearOfPub' must point to struct/union
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(130,8): error C2065: 'aBook': undeclared identifier
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(130,10): error C2223: left of '->isAvailable' must point to struct/union
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(131,15): error C2065: 'aBook': undeclared identifier
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(131,17): error C2223: left of '->custName' must point to struct/union
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(131,9): error C2198: 'strcpy': too few arguments for call
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(132,8): error C2065: 'aBook': undeclared identifier
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(132,10): error C2223: left of '->count' must point to struct/union
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(139,26): error C2065: 'aBook': undeclared identifier
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(139,26): warning C4047: '=': 'Book *' differs in levels of indirection from 'int'
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(197,6): warning C4013: 'gets' undefined; assuming extern returning int
-C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(242,1): error C2059: syntax error: '}'
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(100,6): warning C4101: 'yearOfPub': unreferenced local variable
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(349): error C4703: potentially uninitialized local pointer variable 'popularBook' used
+C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\Assignment1ADS\Library.c(349): error C4703: potentially uninitialized local pointer variable 'leastPopularBook' used

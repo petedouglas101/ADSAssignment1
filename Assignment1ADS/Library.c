@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS //Pre processor that allows me to use scanf instead of scanf_f
+#define _CRT_SECURE_NO_WARNINGS //Pre processor that allows the use of scanf instead of scanf_f
 //Pre processor for defining a boolean
 #define bool int
 #define false 0
@@ -10,6 +10,8 @@
 
 
 //Function Prototypes
+void saveToFile(FILE* filePointer);
+void getFromFile(FILE* filePointer);
 void inputABook();
 void borrowABook();
 void returnABook();
@@ -18,6 +20,7 @@ void viewAllBooks();
 void viewASpecificBook();
 void viewMostAndLeastPopular();
 bool isEmpty();
+
 
 //Book Structure
 struct Book {
@@ -37,63 +40,101 @@ struct LinearNode {
 };
 
 // Global Variables
-struct LinearNode *first = NULL; //pointer to first element in the list
-struct LinearNode *last = NULL; //pointer to last node in list
-int bookCount = 0;
+struct LinearNode *first = NULL; //Pointer to first element in the list
+int bookCount = 0;//Counts total amount of books in the library
+FILE* filePointer;//File pointer variable (holds disc address of file)
 
 
 
 
 
 void main() {
+	//Checks to see if file exists in memory. If it does, it copies the data into memory. Otherwise, it asks the user to input the new data. 
+	if (filePointer = fopen("C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\book.dat", "rb") != NULL) {
+		getFromFile(filePointer);
+		printf("Book details have been copied from existing database!");
+	}
+	else {
+		printf("There is no existing book database - please enter new book details!");
+		inputABook();
+	}
+		//Start of menu
+		int option;//Variable to hold option for menu
+		printf("Welcome to the Library!\nPlease select from one of the following options: \n");//Welcome message of menu
+		//Loop that views menu until user enters "9" to exit
+		do {
+			printf("\n1. Add new books to library\n2. Borrow a book\n3. Return a book\n4. Delete an old book from stock\n5. View all books\n6. View a specific book\n7. View details of most popular and least popular books\n8. Exit\n");//Displaying the menu and the options
+			scanf("%d", &option);
 
-	int option;//Variable to hold option for menu
-	printf("Welcome to the Library!\nPlease select from one of the following options: \n");//Welcome message of menu
-	do {
-		printf("\n1. Add new books to library\n2. Borrow a book\n3. Return a book\n4. Delete an old book from stock\n5. View all books\n6. View a specific book\n7. View details of most popular and least popular books\n8. Exit\n");//Displaying the menu and the options
-		scanf("%d", &option);
-
-		switch (option) {
-		case 1:
-			if (bookCount <= 10) {
-				inputABook();
+			//Switch statement for menu options. Each option calls a specific function
+			switch (option) {
+			case 1:
+				if (bookCount <= 10) {
+					inputABook();
+				}
+				else {
+					printf("ERROR - Too many books in the system!");
+				}
+				break;
+			case 2:
+				borrowABook();
+				break;
+			case 3:
+				returnABook();
+				break;
+			case 4:
+				deleteABookFromStock();
+				break;
+			case 5:
+				viewAllBooks();
+				break;
+			case 6:
+				viewASpecificBook();
+				break;
+			case 7:
+				viewMostAndLeastPopular();
+				break;
+			case 8:
+				//Copies all book data into a file once the user exits the program
+				printf("Copying all book details back into database...");
+				saveToFile(filePointer);
+				break;
+			default:
+				printf("Invalid selection - try again!\n");
+				break;
 			}
-			else {
-				printf("ERROR - Too many books in the system!");
-			}
-			break;
-		case 2:
-			borrowABook();
-			break;
-		case 3:
-			returnABook();
-			break;
-		case 4:
-			deleteABookFromStock();
-			break;
-		case 5:
-			viewAllBooks();
-			break;
-		case 6: 
-			viewASpecificBook();
-			break;
-		case 7:
-			viewMostAndLeastPopular();
-			break;
-		case 9:
-			break;
-		default:
-			printf("Invalid selection - try again!\n");
-			break;
-		}
-	} while (option != 9);
+		} while (option != 8);
 
+}
+
+//Function for getting data from file
+void getFromFile(FILE* filePointer) {
+	struct LinearNode* current = first;
+	printf("Retrieving books from file...");
+	//Copies each book from the disc into each slot in the linked list
+	while (fread(current->element, sizeof(struct Book), 1, filePointer) != 0) {
+		current = current->next;
+	}
+	fclose(filePointer);
+}
+
+//Function for saving data to file
+void saveToFile(FILE* filePointer) {
+	struct LinearNode* current = first;
+	filePointer = fopen("C:\Users\peter\OneDrive\Documents\College\year2\semester2\ads\assignment1\book.dat", "wb");
+	//Saves each book from linked list into a file
+	while (current != NULL) {
+		fwrite(current->element, sizeof(struct Book), 1, filePointer);
+		current = current->next;
+	}
+
+	fclose(filePointer);
 }
 
 //Function for inputting a book
 void inputABook() {
 
-	struct Book *aBook;
+	struct Book *aBook;//Book variable to store details of each book
 	struct LinearNode *aNode;//Creating a Linear Node for storing each book
 
 	//Variables for storing data on each book
@@ -119,6 +160,7 @@ void inputABook() {
 		printf("Please enter the name of the author: \n");
 		scanf("%s", aBook->author);
 
+		//Error checking to make sure the year of publication is after 2008
 		do {
 			printf("Please enter the year of publication: \n");
 			scanf("%d", &aBook->yearOfPub);
@@ -132,6 +174,7 @@ void inputABook() {
 		strcpy(aBook->custName, custName);
 		aBook->count = count; 
 
+
 		if (aNode == NULL) {
 			printf("Error - no space for new node!");
 		}
@@ -141,11 +184,10 @@ void inputABook() {
 		}
 
 		
-		//add node to front of the list
+		//Add node to front of the list
 		if (isEmpty())
 		{
 			first = aNode;
-			last = aNode;
 		}
 		else {
 			aNode->next = first;
